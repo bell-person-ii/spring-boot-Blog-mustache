@@ -38,7 +38,7 @@ public class ArticleController {
         //2. Repository를 통해 Entity를 DB안에 저장
         Article saved = articleRepository.save(article);
         log.info(saved.toString());
-        return "";
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("/articles/{id}")
@@ -62,6 +62,16 @@ public class ArticleController {
         //3. 뷰 페이지 설정
 
         return "articles/index";
+    }
+
+    @GetMapping("/articles/{id}/edit")
+    public String edit(@PathVariable Long id, Model model){
+        //데이터 가져오기
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+        //모델에 데이터 등록
+        model.addAttribute("article", articleEntity);
+        //뷰페이지 설정
+        return "articles/edit";
     }
 
 }
