@@ -23,4 +23,12 @@ public class Article {
     private String title;
     private String content;
 
+    public void patch(Article article){
+        if(article.title != null){
+            this.title = article.title;
+        }
+        if(article.content != null){
+            this.content = article.content;
+        }
+    }
 }
