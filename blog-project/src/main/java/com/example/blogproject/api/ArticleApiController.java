@@ -26,14 +26,11 @@ public class ArticleApiController {
        return articleRepository.findById(id).orElse(null);
     }
 
-
     //Post
     @PostMapping("/api/articles")
     public Article create(@RequestBody ArticleForm dto){
         Article article = dto.toEntity();
         return articleRepository.save(article);
-
-
     }
 
     //Patch
