@@ -2,6 +2,7 @@ package com.example.blogproject.api;
 
 import com.example.blogproject.dto.ArticleForm;
 import com.example.blogproject.entity.Article;
+import com.example.blogproject.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,56 +15,70 @@ import com.example.blogproject.repository.ArticleRepository;
 public class ArticleApiController {
 
     @Autowired //DI
-    private ArticleRepository articleRepository;
+    private ArticleService articleService;
+
     //Get
     @GetMapping("/api/articles")
     public List<Article> index(){
-        return articleRepository.findAll();
+        return articleService.index();
     }
 
     @GetMapping("/api/articles/{id}")
     public Article show(@PathVariable long id){
-       return articleRepository.findById(id).orElse(null);
+       return articleService.show(id);
     }
 
     //Post
     @PostMapping("/api/articles")
-    public Article create(@RequestBody ArticleForm dto){
-        Article article = dto.toEntity();
-        return articleRepository.save(article);
+    public ResponseEntity<Article> create(@RequestBody ArticleForm dto){
+        Article created = articleService.create(dto);
+
+        if(created != null){
+            return ResponseEntity.status(HttpStatus.OK).body(created);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     //Patch
     @PatchMapping("/api/articles/{id}")
     public ResponseEntity<Article> update(@PathVariable Long id, @RequestBody ArticleForm dto){
-        // 수정용 엔티티 생성
-        Article article = dto.toEntity();
-        // 대상 엔티티 가져오기
-        Article target = articleRepository.findById(id).orElse(null);
 
-        // 예외처리 (대상이 없거나 id가 없는 경우)
-        if(target == null || id != article.getId()){
-            // 400 응답
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        Article updated = articleService.update(id,dto);
+
+        if(updated != null){
+            return ResponseEntity.status(HttpStatus.OK).body(updated);
         }
-        // 업데이트 및 정상처리 응답
-        target.patch(article);
-        Article updated = articleRepository.save(target);
-        return ResponseEntity.status(HttpStatus.OK).body(updated);
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     //Delete
     @DeleteMapping("/api/articles/{id}")
-    public ResponseEntity<Article> delete(@PathVariable Long id){
-        //대상 찾기
-        Article target = articleRepository.findById(id).orElse(null);
-        //대상이 없는 경우
-        if(target == null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+
+        Article deleted = articleService.delete(id);
+
+        if(deleted != null){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        // 대상삭제
-        articleRepository.delete(target);
-        return ResponseEntity.status(HttpStatus.OK).build(); //build랑 body(null)로 처리해도 똑같음
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PostMapping("/api/transaction-test")
+    public ResponseEntity<List<Article>>transactionTest(@RequestBody List<ArticleForm> dtos){
+        List<Article> createdList = articleService.createArticles(dtos);
+
+        if(createdList != null){
+            return ResponseEntity.status(HttpStatus.OK).body(createdList);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 }
