@@ -36,7 +36,7 @@ public class ArticleService {
         Article article = dto.toEntity();
         Article target = articleRepository.findById(id).orElse(null);
 
-        if(target == null || id!= target.getId() || id != article.getId()){
+        if(target == null || id != article.getId()){
             return null;
         }
 
