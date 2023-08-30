@@ -1,10 +1,10 @@
-INSERT INTO article(title, content) VALUES ('가가가가','111');
-INSERT INTO article(title, content) VALUES ('가가가가','222');
-INSERT INTO article(title, content) VALUES ('가가가가','333');
+INSERT INTO article(id,title, content) VALUES (1,'가가가가','111');
+INSERT INTO article(id,title, content) VALUES (2,'가가가가','222');
+INSERT INTO article(id,title, content) VALUES (3,'가가가가','333');
 
-INSERT INTO article(title, content) VALUES ('당신의 인생 영화는?','댓글 ㄱ');
-INSERT INTO article(title, content) VALUES ('당신의 소울푸드는?','댓글 ㄱ');
-INSERT INTO article(title, content) VALUES ('당신의 취미는?','댓글 ㄱ');
+INSERT INTO article(id,title, content) VALUES (4,'당신의 인생 영화는?','댓글 ㄱ');
+INSERT INTO article(id,title, content) VALUES (5,'당신의 소울푸드는?','댓글 ㄱ');
+INSERT INTO article(id,title, content) VALUES (6,'당신의 취미는?','댓글 ㄱ');
 
 INSERT INTO comment(id, article_id, nickname, body) VALUES(1,4,'Park','너의 결혼식');
 INSERT INTO comment(id, article_id, nickname, body) VALUES(2,4,'Kim','스타워즈');
