@@ -60,7 +60,6 @@
 
 <!--모달 이벤트 처리-->
 
-
 <script>
     {
     // 모달 요소 선택
@@ -94,15 +93,14 @@
             body:document.querySelector("#edit-comment-body").value,
             article_id:document.querySelector("#edit-comment-article-id").value
         };
+        console.log("#comment-update-btn clicked");
 
         console.log(comment);
         // 수정 REST API 호출
 
+//
         {
-        // 수정 완료 버튼
-        const commentUpdateBtn = document.querySelector("#comment-update-btn");
-        //클릭 이벤트 감지 및 처리
-        commentUpdateBtn.addEventListener("click",function(event){
+
             //수정 댓글 객체 생성
             const comment = {
                 id: document.querySelector("#edit-comment-id").value,
@@ -110,7 +108,7 @@
                 body:document.querySelector("#edit-comment-body").value,
                 article_id:document.querySelector("#edit-comment-article-id").value
             };
-
+            //
             console.log(comment);
             //수정 REST API 호출 - fetch()
             const url = "/api/comments/" + comment.id;
@@ -124,17 +122,20 @@
                 alert(msg);
                 // 현재 페이지 새로고침
                 window.location.reload();
-            });
-        });
+           });
+           //
+
+
+
         }
-
-
+        //
     });
 
-    }
+
+
+ }
 
 </script>
-
 
 
 
